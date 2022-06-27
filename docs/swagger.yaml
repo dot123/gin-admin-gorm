@@ -1,0 +1,402 @@
+basePath: /api/v1
+definitions:
+  ginx.ResponseData:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+  ginx.ResponseFail:
+    properties:
+      code:
+        type: integer
+      err:
+        type: string
+      msg:
+        type: string
+    type: object
+  helper.Cpu:
+    properties:
+      cores:
+        type: integer
+      cpus:
+        items:
+          type: number
+        type: array
+    type: object
+  helper.Disk:
+    properties:
+      totalGb:
+        type: integer
+      totalMb:
+        type: integer
+      usedGb:
+        type: integer
+      usedMb:
+        type: integer
+      usedPercent:
+        type: integer
+    type: object
+  helper.Os:
+    properties:
+      compiler:
+        type: string
+      goVersion:
+        type: string
+      goos:
+        type: string
+      numCpu:
+        type: integer
+      numGoroutine:
+        type: integer
+    type: object
+  helper.Rrm:
+    properties:
+      totalMb:
+        type: integer
+      usedMb:
+        type: integer
+      usedPercent:
+        type: integer
+    type: object
+  helper.Server:
+    properties:
+      cpu:
+        $ref: '#/definitions/helper.Cpu'
+      disk:
+        $ref: '#/definitions/helper.Disk'
+      os:
+        $ref: '#/definitions/helper.Os'
+      ram:
+        $ref: '#/definitions/helper.Rrm'
+    type: object
+  schema.User:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      state:
+        type: string
+      updated_at:
+        type: string
+      user_type:
+        type: string
+      username:
+        type: string
+    type: object
+  schema.UserData:
+    properties:
+      avatar:
+        type: string
+      introduction:
+        type: string
+      name:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.UserQueryResult:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/schema.User'
+        type: array
+      total:
+        type: integer
+    type: object
+host: 127.0.0.1:8000
+info:
+  contact:
+    email: conjurer888888@gmail.com
+    name: conjurer
+    url: https:/github.com/dot123
+  description: This is a game management background. you can use the api key `special-key`
+    to test the authorization filters.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://github.com
+  title: GameAdmin API
+  version: "1.0"
+paths:
+  /deleteFile/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除文件
+      tags:
+      - FileApi
+  /system/reloadSystem:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 重启系统
+      tags:
+      - SystemApi
+  /system/serverInfo:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            allOf:
+            - $ref: '#/definitions/ginx.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/helper.Server'
+              type: object
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 服务器状态
+      tags:
+      - SystemApi
+  /uploadFile:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      summary: 上传文件
+      tags:
+      - FileApi
+  /user:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: avatar
+        type: string
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: user_type
+        required: true
+        type: integer
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 新建用户
+      tags:
+      - UserApi
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: avatar
+        type: string
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: user_type
+        required: true
+        type: integer
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 修改用户
+      tags:
+      - UserApi
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除用户
+      tags:
+      - UserApi
+  /user/info:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            allOf:
+            - $ref: '#/definitions/ginx.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.UserData'
+              type: object
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户信息
+      tags:
+      - UserApi
+  /user/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - default: 1
+        description: 页
+        in: query
+        name: page
+        required: true
+        type: integer
+      - default: 10
+        description: 数量
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: 相似用户名
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            allOf:
+            - $ref: '#/definitions/ginx.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.UserQueryResult'
+              type: object
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户列表
+      tags:
+      - UserApi
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
