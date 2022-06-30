@@ -1,0 +1,23 @@
+volumes:
+  data:
+services:
+  redis:
+    image: redis:latest
+    volumes:
+      - data:/data
+    ports:
+      - 6379:6379
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    volumes:
+      - data:/data/gin-admin-gorm
+  myapp:
+    image: gin-admin-gorm
+    ports:
+      - 8000:8000
+    volumes:
+      - data:/data

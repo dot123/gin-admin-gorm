@@ -23,7 +23,6 @@ func printArraySlice(v reflect.Value, pc int) {
 }
 func printMap(v reflect.Value, pc int) {
 	for _, k := range v.MapKeys() {
-
 		fmt.Println(v.MapIndex(k).Kind())
 		PrintVar(k.Interface(), pc)
 		PrintVar(v.MapIndex(k).Interface(), pc)
