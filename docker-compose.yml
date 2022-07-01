@@ -15,9 +15,19 @@ services:
       - 3306:3306
     volumes:
       - data:/data/gin-admin-gorm
+    # 执行时间设定为10秒，超时时常设定为20秒，重试次数为10次，如果能ping通，说明数据库启动完成
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 20s
+        retries: 10
   myapp:
     image: gin-admin-gorm
     ports:
       - 8000:8000
     volumes:
       - data:/data
+    depends_on:
+     mysql:
+        # 在mysql容器状态为健康前不会启动，需要注意的是：ondition: service_healthy，在V3版本的Compose中已废弃  
+        condition: service_healthy
