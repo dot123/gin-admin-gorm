@@ -13,8 +13,7 @@ func Set(ring *redis.Ring, key string, data interface{}, expiration time.Duratio
 		return err
 	}
 
-	err = ring.Set(key, value, expiration).Err()
-	if err != nil {
+	if err = ring.Set(key, value, expiration).Err(); err != nil {
 		return err
 	}
 
@@ -45,7 +44,7 @@ func LikeDeletes(ring *redis.Ring, key string) error {
 	if keys != nil {
 		for _, value := range keys {
 			k := value.(string)
-			if err := ring.Del(k).Err(); err != nil {
+			if err = ring.Del(k).Err(); err != nil {
 				return err
 			}
 		}
