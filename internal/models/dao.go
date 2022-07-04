@@ -2,6 +2,7 @@ package models
 
 import (
 	"GameAdmin/internal/models/file"
+	"GameAdmin/internal/models/msg"
 	"GameAdmin/internal/models/role"
 	"GameAdmin/internal/models/user"
 	"GameAdmin/internal/models/util"
@@ -14,6 +15,7 @@ var RepoSet = wire.NewSet(
 	role.RoleSet,
 	user.UserSet,
 	file.FileSet,
+	msg.MsgSet,
 )
 
 type (
@@ -21,6 +23,7 @@ type (
 	RoleRepo  = role.RoleRepo
 	UserRepo  = user.UserRepo
 	FileRepo  = file.FileRepo
+	MsgRepo   = msg.MsgRepo
 )
 
 func AutoMigrate(db *gorm.DB) error {
@@ -31,6 +34,7 @@ func AutoMigrate(db *gorm.DB) error {
 		new(role.Role),
 		new(user.User),
 		new(file.File),
+		new(msg.Notice),
 	)
 
 	if !existUser {

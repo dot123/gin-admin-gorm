@@ -67,6 +67,252 @@ const docTemplate = `{
                 }
             }
         },
+        "/msg/notice": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MsgApi"
+                ],
+                "summary": "获取公告列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "数量",
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功结果",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/ginx.ResponseData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.NoticeQueryResult"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "失败结果",
+                        "schema": {
+                            "$ref": "#/definitions/ginx.ResponseFail"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MsgApi"
+                ],
+                "summary": "更新公告",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "content",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "created_at",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operator",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "title",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功结果",
+                        "schema": {
+                            "$ref": "#/definitions/ginx.ResponseData"
+                        }
+                    },
+                    "500": {
+                        "description": "失败结果",
+                        "schema": {
+                            "$ref": "#/definitions/ginx.ResponseFail"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MsgApi"
+                ],
+                "summary": "新建公告",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "content",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "created_at",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "operator",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "title",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功结果",
+                        "schema": {
+                            "$ref": "#/definitions/ginx.ResponseData"
+                        }
+                    },
+                    "500": {
+                        "description": "失败结果",
+                        "schema": {
+                            "$ref": "#/definitions/ginx.ResponseFail"
+                        }
+                    }
+                }
+            }
+        },
+        "/msg/notice/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MsgApi"
+                ],
+                "summary": "删除公告",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "公告id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功结果",
+                        "schema": {
+                            "$ref": "#/definitions/ginx.ResponseData"
+                        }
+                    },
+                    "500": {
+                        "description": "失败结果",
+                        "schema": {
+                            "$ref": "#/definitions/ginx.ResponseFail"
+                        }
+                    }
+                }
+            }
+        },
         "/system/reloadSystem": {
             "get": {
                 "security": [
@@ -573,6 +819,53 @@ const docTemplate = `{
                 },
                 "ram": {
                     "$ref": "#/definitions/helper.Rrm"
+                }
+            }
+        },
+        "schema.Notice": {
+            "type": "object",
+            "required": [
+                "content",
+                "end_time",
+                "operator",
+                "start_time",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.NoticeQueryResult": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Notice"
+                    }
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },

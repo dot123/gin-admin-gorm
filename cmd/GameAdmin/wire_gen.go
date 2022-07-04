@@ -10,6 +10,7 @@ import (
 	"GameAdmin/api/v1"
 	"GameAdmin/internal/middleware/jwt"
 	"GameAdmin/internal/models/file"
+	"GameAdmin/internal/models/msg"
 	"GameAdmin/internal/models/role"
 	"GameAdmin/internal/models/user"
 	"GameAdmin/internal/models/util"
@@ -67,11 +68,19 @@ func BuildInjector(local *fileStore.Local) (*Injector, func(), error) {
 	fileApi := &v1.FileApi{
 		FileSrv: fileSrv,
 	}
+	msgRepo := &msg.MsgRepo{
+		DB: db,
+	}
+	msgSrv := service.NewMsgSrv(msgRepo)
+	msgApi := &v1.MsgApi{
+		MsgSrv: msgSrv,
+	}
 	router := &routers.Router{
 		MyJwt:     jwtJWT,
 		UserApi:   userApi,
 		SystemApi: systemApi,
 		FileApi:   fileApi,
+		MsgApi:    msgApi,
 	}
 	engine := InitGinEngine(router)
 	injector := &Injector{

@@ -41,12 +41,11 @@ func LikeDeletes(ring *redis.Ring, key string) error {
 		return err
 	}
 	keys := val.([]interface{})
-	if keys != nil {
-		for _, value := range keys {
-			k := value.(string)
-			if err = ring.Del(k).Err(); err != nil {
-				return err
-			}
+
+	for _, value := range keys {
+		k := value.(string)
+		if err = ring.Del(k).Err(); err != nil {
+			return err
 		}
 	}
 	return nil

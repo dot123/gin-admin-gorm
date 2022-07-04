@@ -72,6 +72,38 @@ definitions:
       ram:
         $ref: '#/definitions/helper.Rrm'
     type: object
+  schema.Notice:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      end_time:
+        type: string
+      id:
+        type: integer
+      operator:
+        type: string
+      start_time:
+        type: string
+      title:
+        type: string
+    required:
+    - content
+    - end_time
+    - operator
+    - start_time
+    - title
+    type: object
+  schema.NoticeQueryResult:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/schema.Notice'
+        type: array
+      total:
+        type: integer
+    type: object
   schema.User:
     properties:
       avatar:
@@ -154,6 +186,160 @@ paths:
       summary: 删除文件
       tags:
       - FileApi
+  /msg/notice:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - default: 1
+        description: 页
+        in: query
+        name: page
+        required: true
+        type: integer
+      - default: 10
+        description: 数量
+        in: query
+        name: limit
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            allOf:
+            - $ref: '#/definitions/ginx.ResponseData'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.NoticeQueryResult'
+              type: object
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      summary: 获取公告列表
+      tags:
+      - MsgApi
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: content
+        required: true
+        type: string
+      - in: query
+        name: created_at
+        type: string
+      - in: query
+        name: end_time
+        required: true
+        type: string
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: operator
+        required: true
+        type: string
+      - in: query
+        name: start_time
+        required: true
+        type: string
+      - in: query
+        name: title
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 新建公告
+      tags:
+      - MsgApi
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: content
+        required: true
+        type: string
+      - in: query
+        name: created_at
+        type: string
+      - in: query
+        name: end_time
+        required: true
+        type: string
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: operator
+        required: true
+        type: string
+      - in: query
+        name: start_time
+        required: true
+        type: string
+      - in: query
+        name: title
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新公告
+      tags:
+      - MsgApi
+  /msg/notice/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 公告id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseData'
+        "500":
+          description: 失败结果
+          schema:
+            $ref: '#/definitions/ginx.ResponseFail'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除公告
+      tags:
+      - MsgApi
   /system/reloadSystem:
     get:
       consumes:

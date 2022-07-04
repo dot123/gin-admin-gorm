@@ -22,6 +22,7 @@ type Router struct {
 	UserApi   *v1.UserApi
 	SystemApi *v1.SystemApi
 	FileApi   *v1.FileApi
+	MsgApi    *v1.MsgApi
 }
 
 func (a *Router) Register(app *gin.Engine) error {
@@ -73,4 +74,13 @@ func (a *Router) RegisterAPI(app *gin.Engine) {
 	}
 
 	v1.Group("/deleteFile").Use(adminMiddleware.MiddlewareFunc()).DELETE(":id", a.FileApi.DeleteFile)
+
+	gMsg := v1.Group("msg")
+	gMsg.GET("/notice", a.MsgApi.GetNotices)
+	gMsg.Use(authMiddleware.MiddlewareFunc())
+	{
+		gMsg.POST("/notice", a.MsgApi.AddNotice)
+		gMsg.PUT("/notice", a.MsgApi.UpdateNotice)
+		gMsg.DELETE("/notice/:id", a.MsgApi.DeleteNotice)
+	}
 }

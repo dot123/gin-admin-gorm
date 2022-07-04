@@ -26,6 +26,7 @@ require (
 	github.com/swaggo/gin-swagger v1.5.0
 	github.com/swaggo/swag v1.8.3
 	github.com/urfave/cli/v2 v2.10.2
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 	gorm.io/driver/mysql v1.3.4
 	gorm.io/driver/sqlite v1.3.4
