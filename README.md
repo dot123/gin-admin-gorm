@@ -48,8 +48,7 @@
     ├─rabbitMQ    # 消息中间件
     ├─structure
     ├─timer       # 定时任务
-    ├─types
-    └─validator   # 参数校验库
+    └─types
 </code></pre>
 
 
