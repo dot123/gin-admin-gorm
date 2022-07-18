@@ -27,8 +27,8 @@ type UserQueryResult struct {
 
 type UserDataParam struct {
 	ID       uint64 `json:"id"`
-	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
-	UserType int    `json:"user_type" validate:"required"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	UserType int    `json:"user_type" binding:"required"`
 	Avatar   string `json:"avatar"`
 }
