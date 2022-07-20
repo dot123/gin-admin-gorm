@@ -37,9 +37,9 @@ func (a *Local) UploadFile(file *multipart.FileHeader) (string, string, error) {
 	// 拼接路径和文件名
 	p := a.Path + "/" + filename
 
-	f, openError := file.Open() // 读取文件
-	if openError != nil {
-		return "", "", errors.New("function file.Open() Filed, err:" + openError.Error())
+	f, openErr := file.Open() // 读取文件
+	if openErr != nil {
+		return "", "", errors.New("function file.Open() Filed, err:" + openErr.Error())
 	}
 	defer f.Close() // 创建文件 defer 关闭
 
