@@ -44,8 +44,8 @@ func initConsumerabbitmq() *rabbitMQ.RabbitMQPool {
 	onceConsumePool.Do(func() {
 		instanceConsumePool = rabbitMQ.NewConsumePool()
 		//instanceConsumePool.SetMaxConsumeChannel(100)
-		//err := instanceConsumePool.Connect("192.168.1.169", 5672, "admin", "admin")
-		err := instanceConsumePool.ConnectVirtualHost("192.168.1.169", 5672, "temptest", "test123456", "/temptest1")
+		//err := instanceConsumePool.Connect("127.0.0.1", 5672, "admin", "admin")
+		err := instanceConsumePool.ConnectVirtualHost("127.0.0.1", 5672, "temptest", "test123456", "/temptest1")
 		if err != nil {
 			fmt.Println(err)
 		}
