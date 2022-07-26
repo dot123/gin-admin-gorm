@@ -33,8 +33,12 @@ type TestAuthorizator struct {
 
 // HandleAuthorizator 处理测试用户授权规则
 func (*TestAuthorizator) HandleAuthorizator(data interface{}, c *gin.Context) bool {
-	if v, ok := data.(*user.UserRole); ok && v.UserName == "test" {
-		return true
+	if v, ok := data.(*user.UserRole); ok {
+		for _, itemRole := range v.UserRoles {
+			if itemRole.Value == "test" {
+				return true
+			}
+		}
 	}
 
 	return false
