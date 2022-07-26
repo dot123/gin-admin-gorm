@@ -18,8 +18,8 @@ var instanceRPool *rabbitMQ.RabbitMQPool
 func initrabbitmq() *rabbitMQ.RabbitMQPool {
 	oncePool.Do(func() {
 		instanceRPool = rabbitMQ.NewProductPool()
-		//err := instanceRPool.Connect("192.168.1.169", 5672, "admin", "admin")
-		err := instanceRPool.ConnectVirtualHost("192.168.1.169", 5672, "temptest", "test123456", "/temptest1")
+		//err := instanceRPool.Connect("127.0.0.1", 5672, "admin", "admin")
+		err := instanceRPool.ConnectVirtualHost("127.0.0.1", 5672, "temptest", "test123456", "/temptest1")
 		if err != nil {
 			fmt.Println(err)
 		}
